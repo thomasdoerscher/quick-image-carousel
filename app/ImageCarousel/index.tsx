@@ -33,20 +33,22 @@ export const ImageCarousel = ({
   }
 
   return (
-    <main className="mx-auto flex max-w-5xl flex-col gap-6 p-4">
+    <main className="flex flex-col">
       <ThumbnailList
         images={images}
         selectedIndex={selectedIndex}
         onSelect={setSelectedIndex}
       />
-      <CarouselControls
-        current={selectedIndex}
-        total={total}
-        onPrevious={showPrevious}
-        onNext={showNext}
-      >
-        <ImageViewer image={images[selectedIndex]} />
-      </CarouselControls>
+      <div className="mx-auto w-full max-w-5xl p-4 pt-6">
+        <CarouselControls
+          current={selectedIndex}
+          total={total}
+          onPrevious={showPrevious}
+          onNext={showNext}
+        >
+          <ImageViewer image={images[selectedIndex]} />
+        </CarouselControls>
+      </div>
     </main>
   )
 }
