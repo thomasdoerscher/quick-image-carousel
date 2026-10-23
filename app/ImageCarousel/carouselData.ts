@@ -1,7 +1,8 @@
 export const carouselData = [
   {
     id: '1',
-    src: 'https://picsum.photos/id/11/2500/1667',
+    src: 'https://picsum.photos/id/11/1000/667',
+    thumbnail: 'https://picsum.photos/id/11/96/64',
     title: 'Green Grassfield',
     author: 'Paul Jarvis',
     camera: 'FUJIFILM, X-E1',
@@ -9,7 +10,8 @@ export const carouselData = [
   },
   {
     id: '2',
-    src: 'https://picsum.photos/id/14/2500/1667',
+    src: 'https://picsum.photos/id/14/1000/667',
+    thumbnail: 'https://picsum.photos/id/14/96/64',
     title: 'Body of Water Under Blue Sky',
     author: 'Paul Jarvis',
     camera: 'FUJIFILM, X-E1',
@@ -17,7 +19,8 @@ export const carouselData = [
   },
   {
     id: '3',
-    src: 'https://picsum.photos/id/37/2000/1333',
+    src: 'https://picsum.photos/id/37/1000/667',
+    thumbnail: 'https://picsum.photos/id/37/96/64',
     title: 'Green Leafed Trees Beside the Shore',
     author: 'Austin Neill',
     camera: null,
@@ -25,7 +28,8 @@ export const carouselData = [
   },
   {
     id: '4',
-    src: 'https://picsum.photos/id/54/3264',
+    src: 'https://picsum.photos/id/54/700/700',
+    thumbnail: 'https://picsum.photos/id/54/96/64',
     title: 'People on Rock Formation Under White Cloudy Sky',
     author: 'Nicholas Swanson',
     camera: 'iPhone 5, VSCOcam',
@@ -33,7 +37,8 @@ export const carouselData = [
   },
   {
     id: '5',
-    src: 'https://picsum.photos/id/62/2000/1333',
+    src: 'https://picsum.photos/id/62/1000/667',
+    thumbnail: 'https://picsum.photos/id/62/96/64',
     title: 'Top View of Mountain',
     author: 'Daniel Genser',
     camera: 'Canon, EOS REBEL T2i',

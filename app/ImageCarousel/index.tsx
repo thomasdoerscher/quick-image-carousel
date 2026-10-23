@@ -1,3 +1,51 @@
-export const ImageCarousel = () => {
-  return <div>Hello world</div>
+import { useEffect, useState } from 'react'
+import { carouselData } from './carouselData'
+import { CarouselControls } from './CarouselControls'
+import { ImageViewer } from './ImageViewer'
+import { ThumbnailList } from './ThumbnailList'
+import type { CarouselImage } from './types'
+
+type ImageCarouselProps = {
+  images?: CarouselImage[]
+}
+
+export const ImageCarousel = ({
+  images = carouselData,
+}: ImageCarouselProps) => {
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const total = images.length
+
+  const showPrevious = () =>
+    setSelectedIndex((index) => (index - 1 + total) % total)
+  const showNext = () => setSelectedIndex((index) => (index + 1) % total)
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') showPrevious()
+      if (event.key === 'ArrowRight') showNext()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [total])
+
+  if (total === 0) {
+    return <p className="p-4 text-gray-600">No images to display.</p>
+  }
+
+  return (
+    <main className="mx-auto flex max-w-5xl flex-col gap-6 p-4">
+      <ThumbnailList
+        images={images}
+        selectedIndex={selectedIndex}
+        onSelect={setSelectedIndex}
+      />
+      <ImageViewer image={images[selectedIndex]} />
+      <CarouselControls
+        current={selectedIndex}
+        total={total}
+        onPrevious={showPrevious}
+        onNext={showNext}
+      />
+    </main>
+  )
 }
