@@ -13,6 +13,7 @@ export const ImageCarousel = ({
   images = carouselData,
 }: ImageCarouselProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [isThumbnailsExpanded, setIsThumbnailsExpanded] = useState(false)
   const total = images.length
 
   const showPrevious = () =>
@@ -20,13 +21,20 @@ export const ImageCarousel = ({
   const showNext = () => setSelectedIndex((index) => (index + 1) % total)
 
   useEffect(() => {
+    // The expanded thumbnail grid handles its own keyboard navigation
+    if (isThumbnailsExpanded) return
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') showPrevious()
       if (event.key === 'ArrowRight') showNext()
+      if (event.key === 'ArrowDown') {
+        event.preventDefault()
+        setIsThumbnailsExpanded(true)
+      }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [total])
+  }, [total, isThumbnailsExpanded])
 
   if (total === 0) {
     return (
@@ -42,6 +50,8 @@ export const ImageCarousel = ({
         images={images}
         selectedIndex={selectedIndex}
         onSelect={setSelectedIndex}
+        isExpanded={isThumbnailsExpanded}
+        onExpandedChange={setIsThumbnailsExpanded}
       />
       <div className="mx-auto w-full max-w-5xl p-4 pt-6">
         <CarouselControls
