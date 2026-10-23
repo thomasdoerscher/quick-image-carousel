@@ -1,5 +1,5 @@
 import { format, parseISO } from 'date-fns'
-import type { CarouselImage } from './types'
+import type { CarouselImage } from '../types'
 
 type ImageViewerProps = {
   image: CarouselImage

@@ -5,8 +5,8 @@ import {
   type KeyboardEventHandler,
   type RefObject,
 } from 'react'
-import { IconButton } from './IconButton'
-import type { CarouselImage } from './types'
+import { IconButton } from '../IconButton'
+import type { CarouselImage } from '../types'
 
 // Finds the thumbnail in the adjacent row closest horizontally to `index`
 const getIndexInAdjacentRow = (
