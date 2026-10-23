@@ -1,0 +1,42 @@
+export const carouselData = [
+  {
+    id: '1',
+    src: 'https://picsum.photos/id/11/2500/1667',
+    title: 'Green Grassfield',
+    author: 'Paul Jarvis',
+    camera: 'FUJIFILM, X-E1',
+    date: '2013-06-09',
+  },
+  {
+    id: '2',
+    src: 'https://picsum.photos/id/14/2500/1667',
+    title: 'Body of Water Under Blue Sky',
+    author: 'Paul Jarvis',
+    camera: 'FUJIFILM, X-E1',
+    date: '2013-06-09',
+  },
+  {
+    id: '3',
+    src: 'https://picsum.photos/id/37/2000/1333',
+    title: 'Green Leafed Trees Beside the Shore',
+    author: 'Austin Neill',
+    camera: null,
+    date: '2013-06-29',
+  },
+  {
+    id: '4',
+    src: 'https://picsum.photos/id/54/3264',
+    title: 'People on Rock Formation Under White Cloudy Sky',
+    author: 'Nicholas Swanson',
+    camera: 'iPhone 5, VSCOcam',
+    date: '2013-07-19',
+  },
+  {
+    id: '5',
+    src: 'https://picsum.photos/id/62/2000/1333',
+    title: 'Top View of Mountain',
+    author: 'Daniel Genser',
+    camera: 'Canon, EOS REBEL T2i',
+    date: '2013-07-29',
+  },
+]
