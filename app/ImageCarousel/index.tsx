@@ -29,7 +29,11 @@ export const ImageCarousel = ({
   }, [total])
 
   if (total === 0) {
-    return <p className="p-4 text-gray-600">No images to display.</p>
+    return (
+      <p className="p-4 text-gray-600 dark:text-gray-400">
+        No images to display.
+      </p>
+    )
   }
 
   return (

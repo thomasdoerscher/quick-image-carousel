@@ -8,8 +8,10 @@ import {
   type ErrorResponse,
   type LinksFunction,
 } from 'react-router'
+import { useState } from 'react'
 
 import './app.css'
+import { ThemeToggle, type Theme } from './ThemeToggle'
 
 export const links: LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -25,8 +27,10 @@ export const links: LinksFunction = () => [
 ]
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>('dark')
+
   return (
-    <html lang="en">
+    <html lang="en" className={theme === 'dark' ? 'dark' : undefined}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,6 +39,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <ThemeToggle
+          theme={theme}
+          onToggle={() =>
+            setTheme((current) => (current === 'dark' ? 'light' : 'dark'))
+          }
+        />
         <ScrollRestoration />
         <Scripts />
       </body>
