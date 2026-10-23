@@ -5,7 +5,7 @@ type ImageViewerProps = {
   image: CarouselImage
 }
 
-export const ImageViewer = ({ image }: ImageViewerProps) => {
+export const ImageViewer: React.FC<ImageViewerProps> = ({ image }) => {
   return (
     <figure className="flex flex-col items-center gap-3">
       <img

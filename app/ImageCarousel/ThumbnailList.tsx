@@ -1,67 +1,61 @@
-import { forwardRef, useEffect, useRef, useState, type KeyboardEventHandler, type Ref } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEventHandler,
+  type RefObject,
+} from 'react'
+import { IconButton } from './IconButton'
 import type { CarouselImage } from './types'
+
+// Finds the thumbnail in the adjacent row closest horizontally to `index`
+const getIndexInAdjacentRow = (
+  index: number,
+  direction: -1 | 1,
+  listRef: RefObject<HTMLUListElement | null>,
+) => {
+  const items = Array.from(listRef.current?.children ?? []) as HTMLElement[]
+  const current = items[index] as HTMLElement
+  if (!current) return index
+
+  const rowTops = [...new Set(items.map((item) => item.offsetTop))].sort(
+    (a, b) => a - b,
+  )
+  const targetTop = rowTops[rowTops.indexOf(current.offsetTop) + direction]
+  if (targetTop === undefined) return index
+
+  const center = (item: HTMLElement) => item.offsetLeft + item.offsetWidth / 2
+  let closestIndex = index
+  let closestDistance = Infinity
+  items.forEach((item, itemIndex) => {
+    if (item.offsetTop !== targetTop) return
+    const distance = Math.abs(center(item) - center(current))
+    if (distance < closestDistance) {
+      closestIndex = itemIndex
+      closestDistance = distance
+    }
+  })
+  return closestIndex
+}
 
 type ThumbnailListProps = {
   images: CarouselImage[]
-  selectedIndex: number
-  onSelect: (index: number) => void
   isExpanded: boolean
   onExpandedChange: (isExpanded: boolean) => void
-}
-
-type IconButtonProps = {
-  label: string
-  onClick: () => void
-  disabled?: boolean
-  expanded?: boolean
-  iconPath: string
-  ref?: Ref<HTMLButtonElement>
+  onSelect: (index: number) => void
+  selectedIndex: number
 }
 
 const EXPAND_PATH = 'M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'
 const COLLAPSE_PATH = 'M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7'
 
-const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
-  label,
-  onClick,
-  disabled = false,
-  expanded,
-  iconPath,
-}, ref) => {
-  return (
-    <button
-      ref={ref}
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={label}
-      aria-expanded={expanded}
-      title={label}
-      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-gray-900 shadow-sm hover:bg-gray-100 disabled:cursor-default disabled:opacity-40 disabled:hover:bg-white dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700 dark:disabled:hover:bg-gray-800"
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-4 w-4"
-        aria-hidden="true"
-      >
-        <path d={iconPath} />
-      </svg>
-    </button>
-  )
-})
-
-export const ThumbnailList = ({
+export const ThumbnailList: React.FC<ThumbnailListProps> = ({
   images,
-  selectedIndex,
-  onSelect,
   isExpanded,
   onExpandedChange,
-}: ThumbnailListProps) => {
+  onSelect,
+  selectedIndex,
+}) => {
   const listRef = useRef<HTMLUListElement>(null)
   const toggleButtonRef = useRef<HTMLButtonElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
@@ -69,77 +63,9 @@ export const ThumbnailList = ({
   // Thumbnail highlighted by keyboard navigation while the grid is open
   const [activeIndex, setActiveIndex] = useState(selectedIndex)
 
-  useEffect(() => {
-    const list = listRef.current
-    if (!list) return
-
-    const updateScrollState = () => {
-      const maxScrollLeft = list.scrollWidth - list.clientWidth
-      setCanScrollLeft(list.scrollLeft > 0)
-      setCanScrollRight(list.scrollLeft < maxScrollLeft - 1)
-    }
-
-    updateScrollState()
-    list.addEventListener('scroll', updateScrollState, { passive: true })
-    const resizeObserver = new ResizeObserver(updateScrollState)
-    resizeObserver.observe(list)
-    return () => {
-      list.removeEventListener('scroll', updateScrollState)
-      resizeObserver.disconnect()
-    }
-  }, [images.length])
-
-  useEffect(() => {
-    if (!isExpanded) {
-      // Bring the selected thumbnail into view after leaving the grid
-      listRef.current
-        ?.querySelector('[aria-current="true"]')
-        ?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
-      return
-    }
-
-    setActiveIndex(selectedIndex)
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = previousOverflow
-    }
-  }, [isExpanded])
-
-  useEffect(() => {
-    if (!isExpanded) return
-    listRef.current?.querySelectorAll('button')[activeIndex]?.focus()
-  }, [isExpanded, activeIndex])
-
   const handleSelect = (index: number) => {
     onSelect(index)
     onExpandedChange(false)
-  }
-
-  // Finds the thumbnail in the adjacent row closest horizontally to `index`
-  const getIndexInAdjacentRow = (index: number, direction: -1 | 1) => {
-    const items = Array.from(listRef.current?.children ?? []) as HTMLElement[]
-    const current = items[index]
-    if (!current) return index
-
-    const rowTops = [...new Set(items.map((item) => item.offsetTop))].sort(
-      (a, b) => a - b,
-    )
-    const targetTop = rowTops[rowTops.indexOf(current.offsetTop) + direction]
-    if (targetTop === undefined) return index
-
-    const center = (item: HTMLElement) => item.offsetLeft + item.offsetWidth / 2
-    let closestIndex = index
-    let closestDistance = Infinity
-    items.forEach((item, itemIndex) => {
-      if (item.offsetTop !== targetTop) return
-      const distance = Math.abs(center(item) - center(current))
-      if (distance < closestDistance) {
-        closestIndex = itemIndex
-        closestDistance = distance
-      }
-    })
-    return closestIndex
   }
 
   const handleKeyDown: KeyboardEventHandler<HTMLButtonElement> = (event) => {
@@ -160,10 +86,10 @@ export const ThumbnailList = ({
         setActiveIndex((index) => (index + 1) % total)
         break
       case 'ArrowUp':
-        setActiveIndex((index) => getIndexInAdjacentRow(index, -1))
+        setActiveIndex((index) => getIndexInAdjacentRow(index, -1, listRef))
         break
       case 'ArrowDown':
-        setActiveIndex((index) => getIndexInAdjacentRow(index, 1))
+        setActiveIndex((index) => getIndexInAdjacentRow(index, 1, listRef))
         break
       case 'Enter':
         // Let the collapse button handle its own activation
@@ -188,6 +114,47 @@ export const ThumbnailList = ({
   }
 
   const hasOverflow = !isExpanded && (canScrollLeft || canScrollRight)
+
+  useEffect(() => {
+    const list = listRef.current
+    if (!list) return
+
+    const updateScrollState = () => {
+      const maxScrollLeft = list.scrollWidth - list.clientWidth
+      setCanScrollLeft(list.scrollLeft > 0)
+      setCanScrollRight(list.scrollLeft < maxScrollLeft - 1)
+    }
+
+    updateScrollState()
+    list.addEventListener('scroll', updateScrollState, { passive: true })
+
+    const resizeObserver = new ResizeObserver(updateScrollState)
+    resizeObserver.observe(list)
+
+    return () => {
+      list.removeEventListener('scroll', updateScrollState)
+      resizeObserver.disconnect()
+    }
+  }, [images.length])
+
+  useEffect(() => {
+    if (!isExpanded) {
+      document.body.style.overflow = 'auto'
+      // Bring the selected thumbnail into view after leaving the grid
+      listRef.current
+        ?.querySelector('[aria-current="true"]')
+        ?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+      return
+    }
+
+    setActiveIndex(selectedIndex)
+    document.body.style.overflow = 'hidden'
+  }, [isExpanded])
+
+  useEffect(() => {
+    if (!isExpanded) return
+    listRef.current?.querySelectorAll('button')[activeIndex]?.focus()
+  }, [isExpanded, activeIndex])
 
   return (
     <div

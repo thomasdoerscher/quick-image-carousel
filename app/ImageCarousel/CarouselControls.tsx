@@ -1,21 +1,26 @@
 import type { ReactNode } from 'react'
 
 type CarouselControlsProps = {
-  current: number
-  total: number
-  onPrevious: () => void
-  onNext: () => void
   children: ReactNode
+  current: number
+  onNext: () => void
+  onPrevious: () => void
+  total: number
 }
 
 type NavButtonProps = {
-  label: string
-  tooltip: string
-  onClick: () => void
   iconPath: string
+  label: string
+  onClick: () => void
+  tooltip: string
 }
 
-const NavButton = ({ label, tooltip, onClick, iconPath }: NavButtonProps) => {
+const NavButton: React.FC<NavButtonProps> = ({
+  iconPath,
+  label,
+  onClick,
+  tooltip,
+}) => {
   return (
     <div className="group relative shrink-0">
       <button
@@ -47,13 +52,13 @@ const NavButton = ({ label, tooltip, onClick, iconPath }: NavButtonProps) => {
   )
 }
 
-export const CarouselControls = ({
-  current,
-  total,
-  onPrevious,
-  onNext,
+export const CarouselControls: React.FC<CarouselControlsProps> = ({
   children,
-}: CarouselControlsProps) => {
+  current,
+  onNext,
+  onPrevious,
+  total,
+}) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-4">

@@ -1,15 +1,18 @@
 export type Theme = 'light' | 'dark'
 
 type ThemeToggleProps = {
-  theme: Theme
   onToggle: () => void
+  theme: Theme
 }
 
 const SUN_PATH =
   'M12 3v2m0 14v2M5.64 5.64l1.42 1.42m9.88 9.88 1.42 1.42M3 12h2m14 0h2M5.64 18.36l1.42-1.42m9.88-9.88 1.42-1.42M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z'
 const MOON_PATH = 'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'
 
-export const ThemeToggle = ({ theme, onToggle }: ThemeToggleProps) => {
+export const ThemeToggle: React.FC<ThemeToggleProps> = ({
+  onToggle,
+  theme,
+}) => {
   const isDark = theme === 'dark'
 
   return (

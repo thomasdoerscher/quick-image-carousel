@@ -9,9 +9,9 @@ type ImageCarouselProps = {
   images?: CarouselImage[]
 }
 
-export const ImageCarousel = ({
+export const ImageCarousel: React.FC<ImageCarouselProps> = ({
   images = carouselData,
-}: ImageCarouselProps) => {
+}) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isThumbnailsExpanded, setIsThumbnailsExpanded] = useState(false)
   const total = images.length
