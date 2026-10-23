@@ -39,13 +39,14 @@ export const ImageCarousel = ({
         selectedIndex={selectedIndex}
         onSelect={setSelectedIndex}
       />
-      <ImageViewer image={images[selectedIndex]} />
       <CarouselControls
         current={selectedIndex}
         total={total}
         onPrevious={showPrevious}
         onNext={showNext}
-      />
+      >
+        <ImageViewer image={images[selectedIndex]} />
+      </CarouselControls>
     </main>
   )
 }
