@@ -58,6 +58,8 @@ export const ThumbnailList: React.FC<ThumbnailListProps> = ({
 }) => {
   const listRef = useRef<HTMLUListElement>(null)
   const toggleButtonRef = useRef<HTMLButtonElement>(null)
+  const leftScrollButtonRef = useRef<HTMLButtonElement>(null)
+  const rightScrollButtonRef = useRef<HTMLButtonElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
   // Thumbnail highlighted by keyboard navigation while the grid is open
@@ -72,7 +74,14 @@ export const ThumbnailList: React.FC<ThumbnailListProps> = ({
     event.preventDefault()
 
     const total = images.length
-    if (event.key === 'Tab' && !event.shiftKey) {
+    if (event.key === 'Tab') {
+      if (event.shiftKey && canScrollLeft) {
+        return leftScrollButtonRef.current?.focus()
+      }
+      if (canScrollRight) {
+        return rightScrollButtonRef.current?.focus()
+      }
+
       toggleButtonRef.current?.focus()
     }
 
@@ -180,6 +189,7 @@ export const ThumbnailList: React.FC<ThumbnailListProps> = ({
       )}
       {hasOverflow && (
         <IconButton
+          ref={leftScrollButtonRef}
           label="Scroll thumbnails left"
           onClick={() => scrollBy(-1)}
           disabled={!canScrollLeft}
@@ -190,7 +200,7 @@ export const ThumbnailList: React.FC<ThumbnailListProps> = ({
         ref={listRef}
         className={`flex min-w-0 flex-1 gap-3 ${
           isExpanded
-            ? 'flex-wrap content-start justify-center overflow-y-auto p-4'
+            ? 'flex-wrap content-start overflow-y-auto p-4'
             : 'overflow-x-auto p-2'
         }`}
         aria-label="Thumbnails"
@@ -234,6 +244,7 @@ export const ThumbnailList: React.FC<ThumbnailListProps> = ({
           onClick={() => scrollBy(1)}
           disabled={!canScrollRight}
           iconPath="M9 18l6-6-6-6"
+          ref={rightScrollButtonRef}
         />
       )}
       {!isExpanded && (
