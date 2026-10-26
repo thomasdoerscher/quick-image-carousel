@@ -1,0 +1,13 @@
+import type { MetaArgs } from 'react-router'
+import { ImageCarousel } from '../ImageCarousel'
+
+export function meta({}: MetaArgs) {
+  return [
+    { title: 'New React Router App' },
+    { name: 'description', content: 'Welcome to React Router!' },
+  ]
+}
+
+export default function Home() {
+  return <ImageCarousel />
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Quick Image Carousel",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write .",
+    "start": "react-router-serve ./build/server/index.js",
+    "test": "jest",
+    "typecheck": "react-router typegen && tsc",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@react-router/node": "^8.5.0",
+    "@react-router/serve": "^8.5.0",
+    "date-fns": "^4.4.0",
+    "isbot": "^5.1.36",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router": "^8.5.0"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^8.5.0",
+    "@tailwindcss/vite": "^4.2.2",
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@types/react-router": "^5.1.20",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
+    "prettier": "^3.5.0",
+    "tailwindcss": "^4.2.2",
+    "ts-jest": "^29.4.15",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.3"
+  }
+}
